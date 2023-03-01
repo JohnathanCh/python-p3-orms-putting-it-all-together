@@ -72,15 +72,18 @@ class Dog:
         if dog:
             return cls.new_from_db(dog)
         else:
-            dog = Dog(name, breed)
-            dog.save()
+            dog = cls.create(name, breed)
             return dog
         
     def update(self):
-        # found = Dog.find_by_id(self.id)
-        sql = "UPDATE dogs SET name = ?, breed = ? WHERE id = ?"
-        dog = CURSOR.execute(sql, (self.name, self.breed, self.id)).fetchone()
-        pdb.set_trace()
+        sql = """
+            UPDATE dogs
+            SET name = ?,
+                breed = ?
+            WHERE id = ?
+        """
+
+        CURSOR.execute(sql, (self.name, self.breed, self.id))
         
         
         
